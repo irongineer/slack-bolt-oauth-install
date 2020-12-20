@@ -2,6 +2,8 @@
 
 Sample project for Slack OAuth install by slack framework Bolt with Typescript on AWS Lambda managed by Serverless Framework
 
+**Article URL: https://qiita.com/irongineer/items/9f0b997bbf62ae0d0e06**
+
 ```bash
 # node 10.13+ required
 # 0) Create a new project with this template
@@ -12,8 +14,8 @@ serverless create \
 
 # 1) Slack App Configuration
 # Go to https://api.slack.com/apps
-#   - Create a Global Shortcut named `Workout!` and Callback ID `muscle` in 'Interactivity & Shortcuts' tab (Request URL can be a dummy) ** DON"T forget to click `Save` button! **
-#   - Add a Redirect Url in 'OAuth & Permissions' tab (Redirect URL can be a dummy) ** DON"T forget to click `Save` button! **
+#   - Create a Global Shortcut named `Workout!` and Callback ID `muscle` in 'Interactivity & Shortcuts' tab (Request URL can be a dummy) ** DON"T forget to click `Save Changes` button! **
+#   - Add a Redirect Url in 'OAuth & Permissions' tab (Redirect URL can be a dummy) ** DON"T forget to click `Save URLs` button! **
 #   - Create a bot user @{bot-name} by clicking `Edit` button of `App Display Name` and input your Bot name in 'App Home' Tab
 #   - Click the Activate Public Distribution button in 'Manage distribution' tab after check "Remove Hard Coded Information" (cf. https://api.slack.com/start/distributing/public#enabling)
 #   - Get Environment Variables from 'Basic Information' tab
