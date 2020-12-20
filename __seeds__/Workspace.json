@@ -1,0 +1,22 @@
+[
+  {
+    "teamId": "T123",
+    "tenantId": "t123",
+    "name": "Workspace 1",
+    "appId": "A123",
+    "botId": "B123",
+    "botUserId": "U123",
+    "token": "xoxo0123",
+    "scopes": ["scopeA, scopeB"]
+  },
+  {
+    "teamId": "T456",
+    "tenantId": "t456",
+    "name": "Workspace 2",
+    "appId": "A456",
+    "botId": "B456",
+    "botUserId": "U456",
+    "token": "xoxo0456",
+    "scopes": ["scopeA, scopeC"]
+  }
+]

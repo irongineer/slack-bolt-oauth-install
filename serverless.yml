@@ -1,0 +1,105 @@
+service: slack-bolt-oauth-install-lambda
+
+plugins:
+  - serverless-webpack
+  - serverless-dynamodb-local
+  - serverless-offline # serverless-offline needs to be last in the list (https://github.com/99xt/serverless-dynamodb-local#using-with-serverless-offline-and-serverless-webpack-plugin)
+
+custom:
+  webpack:
+    packager: 'yarn'
+  serverless-offline:
+    port: ${env:SERVERLESS_PORT, '3000'}
+    disableModelValidation: true # reference another model is not supported
+    useChildProcesses: true
+  dynamodb:
+    stages:
+      - ${self:provider.stage}
+    start:
+      port: ${env:DYNAMODB_PORT, '8000'}
+      inMemory: true
+      # https://github.com/99xt/serverless-dynamodb-local#migrations-sls-dynamodb-migrate
+      migrate: true
+      # https://github.com/99xt/serverless-dynamodb-local#seeding-sls-dynamodb-seed
+      seed: true
+    seed:
+      development:
+        sources:
+          - table: InstallWorkspace-MuscleApp
+            sources: [./__seeds__/Workspace.json]
+          - table: InstallUser-MuscleApp
+            sources: [./__seeds__/User.json]
+  iamRoleStatements:
+    xray:
+      Effect: Allow
+      Action:
+        - xray:PutTraceSegments
+        - xray:PutTelemetryRecords
+        - xray:GetSamplingRules
+        - xray:GetSamplingTargets
+        - xray:GetSamplingStatisticSummaries
+      Resource:
+        - '*'
+  stageSuffix:
+
+provider:
+  name: aws
+  stage: ${opt:stage, 'dev'}
+  region: ap-northeast-1
+  runtime: nodejs12.x
+  memorySize: 128
+  timeout: 30
+  environment:
+    STAGE: ${self:provider.stage}
+    WORKSPACE_TABLE: InstallWorkspace-MuscleApp
+    USER_TABLE: InstallUser-MuscleApp
+  iamRoleStatements:
+    - ${self:custom.iamRoleStatements.xray}
+    - Effect: Allow
+      Action:
+        - lambda:InvokeFunction
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource:
+        - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.WORKSPACE_TABLE}"
+        - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.USER_TABLE}"
+  logs:
+    restApi:
+      accessLogging: true
+
+functions:
+  api:
+    handler: src/handler.app
+    # layers:
+    #   - { Ref: NodeModulesLambdaLayer }
+    events:
+      - http:
+          path: /slack/events
+          method: post
+      - http:
+          path: /slack/install
+          method: get
+      - http:
+          path: /slack/user_install
+          method: get
+      - http:
+          path: /slack/oauth_redirect
+          method: get
+    environment:
+      SLACK_SIGNING_SECRET: ${env:SLACK_SIGNING_SECRET}
+      SLACK_CLIENT_ID: ${env:SLACK_CLIENT_ID}
+      SLACK_CLIENT_SECRET: ${env:SLACK_CLIENT_SECRET}
+
+# layers:
+#   nodeModules:
+#     path: ./layers
+
+resources:
+  - ${file(./serverless-dynamodb.yml)}

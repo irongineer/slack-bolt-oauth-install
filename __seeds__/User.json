@@ -1,0 +1,18 @@
+[
+  {
+    "teamId": "T123",
+    "userId": "U123",
+    "tenantId": "t123",
+    "sub": "U123",
+    "token": "xoxo0123",
+    "scopes": ["scopeA, scopeB"]
+  },
+  {
+    "teamId": "T456",
+    "userId": "U456",
+    "tenantId": "t456",
+    "sub": "U456",
+    "token": "xoxo0456",
+    "scopes": ["scopeA, scopeC"]
+  }
+]
