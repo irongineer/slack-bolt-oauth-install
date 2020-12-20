@@ -30,7 +30,7 @@ vi .env
 source .env
 
 # 3) Local Development
-sls offline # local dev
+sls offline # local dev (or `yarn start`)
 ngrok http 3000 # on another terminal window
 
 # Update the Request URL for the 'Slash Commands' and 'Interactivity & Shortcuts' with the ngrok URL
@@ -58,7 +58,7 @@ ngrok http 3000 # on another terminal window
 # 5) Deploy to AWS
 export AWS_ACCESS_KEY_ID=xxx  # Skip if you have already completed `aws configure`
 export AWS_SECRET_ACCESS_KEY=yyy  # Skip if you have already completed `aws configure`
-sls deploy
+sls deploy # (or `yarn deploy`)
 
 # Update the Request URL for the 'Slash Commands' and 'Interactivity & Shortcuts' with the deployed AWS URL
 # ex) https://xxxxxxxxxx.execute-api.ap-northeast-1.amazonaws.com/dev/slack/events
