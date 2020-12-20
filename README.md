@@ -7,7 +7,7 @@ Sample project for Slack OAuth install by slack framework Bolt with Typescript o
 # 0) Create a new project with this template
 yarn global add serverless
 serverless create \
-  --template-url https://github.com/irongineer/slack-bolt-oauth-install/tree/oauth-install \
+  --template-url https://github.com/irongineer/slack-bolt-oauth-install/tree/main \
   --path slack-bolt-oauth-install
 
 # 1) Slack App Configuration
